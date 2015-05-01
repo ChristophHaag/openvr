@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_opengl.h>
-#include <gl/glu.h>
+#include <GL/glu.h>
 #include <stdio.h>
 #include <string>
 #include <cstdlib>
@@ -13,6 +13,11 @@
 #include "shared/lodepng.h"
 #include "shared/Matrices.h"
 #include "shared/pathtools.h"
+
+//TODO: proper linux compatibility
+#ifdef __linux__
+#include <shared/linuxcompathack.h>
+#endif
 
 #if defined(POSIX)
 #include "unistd.h"

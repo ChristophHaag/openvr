@@ -23,6 +23,6 @@ FORMS    += overlaywidget.ui
 
 INCLUDEPATH += ../../headers
 
-LIBS += -L../../lib/win32 -lopenvr_api
+LIBS += -L../../lib/win32 -L../../lib/win64 -L=../../lib/linux32 -L=../../lib/linux64 -lopenvr_api
 
 DESTDIR = ../bin/win32

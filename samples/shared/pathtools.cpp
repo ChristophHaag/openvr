@@ -14,14 +14,20 @@
 #include "osxfilebridge.h"
 #define _S_IFDIR S_IFDIR     // really from tier0/platform.h which we dont have yet
 #define _MAX_PATH MAX_PATH   // yet another form of _PATH define we use
-#elif defined(LINUX)
+#elif defined(__linux__)
 #include <dlfcn.h>
 #include <stdio.h>
+#include <unistd.h>
 #endif
 
 #include <sys/stat.h>
 
 #include <algorithm>
+
+//TODO: proper linux compatibility
+#ifdef __linux__
+#include <shared/linuxcompathack.h>
+#endif
 
 /** Returns the path (including filename) to the current executable */
 std::string Path_GetExecutablePath()
@@ -35,7 +41,7 @@ std::string Path_GetExecutablePath()
 	uint32_t _nBuff = nBuff; 
 	bSuccess = _NSGetExecutablePath(rchPath, &_nBuff) == 0;
 	rchPath[nBuff-1] = '\0';
-#elif defined LINUX
+#elif defined __linux__
 	ssize_t nRead = readlink("/proc/self/exe", rchPath, nBuff-1 );
 	if ( nRead != -1 )
 	{
@@ -358,7 +364,7 @@ std::string GetThisModulePath()
 	delete [] pchPath;
 	return sPath;
 
-#elif defined( OSX ) || defined( LINUX )
+#elif defined( OSX ) || defined( __linux__ )
 	// get the addr of a function in vrclient.so and then ask the dlopen system about it
 	Dl_info info;
 	dladdr( (void *)GetThisModulePath, &info );
@@ -385,7 +391,7 @@ bool Path_IsDirectory( const std::string & sPath )
 		return false;
 	}
 
-#if defined(LINUX)
+#if defined(__linux__)
 	return S_ISDIR( buf.st_mode );
 #else
 	return ( buf.st_mode & _S_IFDIR ) != 0;

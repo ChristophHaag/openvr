@@ -89,7 +89,7 @@ bool Path_WriteStringToTextFile( const std::string &strFilename, const char *pch
 #elif defined(OSX)
 #define DYNAMIC_LIB_EXT	".dylib"
 #define PLATSUBDIR	"osx32"
-#elif defined(LINUX)
+#elif defined(__linux__)
 #define DYNAMIC_LIB_EXT	".so"
 #define PLATSUBDIR	"linux32"
 #else
