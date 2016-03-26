@@ -16,5 +16,7 @@ endif()
 configure_file(run_hellovr.sh run_hellovr.sh COPYONLY)
 configure_file(../bin/cube_texture.png ../cube_texture.png COPYONLY)
 
-target_compile_features(hellovr PRIVATE cxx_range_for)
+#set_property(TARGET hellovr PROPERTY CXX_STANDARD 11) #Requires CMake 3.1
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
+
 target_link_libraries (hellovr LINK_PUBLIC openvr_api ${SDL2_LIBRARY} ${OPENVR_LIB} ${GLEW_LIBRARIES} dl GL)
