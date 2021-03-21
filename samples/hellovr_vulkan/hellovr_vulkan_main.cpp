@@ -1653,7 +1653,8 @@ void CMainApplication::RunMainLoop()
 	SDL_StartTextInput();
 	SDL_ShowCursor( SDL_DISABLE );
 
-	while ( !bQuit )
+	int i = 0;
+	while ( !bQuit && i++ < 300)
 	{
 		bQuit = HandleInput();
 
@@ -3787,17 +3788,19 @@ void VulkanRenderModel::Draw( vr::EVREye nEye, VkCommandBuffer pCommandBuffer, V
 //-----------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
-	CMainApplication *pMainApplication = new CMainApplication( argc, argv );
+	for (int i = 0; i < 3; i++) {
+		CMainApplication *pMainApplication = new CMainApplication( argc, argv );
 
-	if ( !pMainApplication->BInit() )
-	{
+		if ( !pMainApplication->BInit() )
+		{
+			pMainApplication->Shutdown();
+			return 1;
+		}
+
+		pMainApplication->RunMainLoop();
 		pMainApplication->Shutdown();
-		return 1;
+		printf("Restarting...\n");
 	}
-
-	pMainApplication->RunMainLoop();
-
-	pMainApplication->Shutdown();
 
 	return 0;
 }
